@@ -131,3 +131,7 @@ body {
     transform: translateY(0);
   }
 }
+
+input[type="checkbox"] {
+  accent-color: #000;
+}

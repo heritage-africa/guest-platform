@@ -4,14 +4,19 @@ import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import { FC, useState, FormEvent, Fragment, ChangeEvent } from "react";
 import Image from "next/image";
-
-const translate = (arg: Record<string, string>) => arg["en"];
+import { useParams } from "next/navigation";
+import { getLang, getTranslateFn } from "@/utils/misc";
+import Link from "next/link";
 
 export default function Footer() {
+  const langParam = useParams().lang as string | undefined;
+  const lang = getLang(langParam);
+  const translate = getTranslateFn(lang);
+
   return (
     <div className="relative footer">
       <div className="bg-black/90 absolute left-0 right-0 top-0 bottom-0 -z-10"></div>
-      <div className="flex flex-col gap-y-[50px] lg:flex-row justify-center lg:gap-x-[100px] md:gap-x-[70px] p-[20px]">
+      <div className="max-w-[1200px] mx-auto flex flex-col gap-y-[50px] lg:flex-row justify-between lg:gap-x-[100px] md:gap-x-[70px] p-[20px]">
         <div className="max-w-[300px] flex flex-col gap-x-1">
           <p className="text-xl text-white font-semibold mb-2">
             {translate({ en: "Subscribe", fr: "S'abonner" })}
@@ -20,23 +25,17 @@ export default function Footer() {
         </div>
         <div className="max-w-[210px] flex flex-col gap-x-1">
           <p className="text-xl text-white font-semibold mb-2">
-            {translate({ en: "Company", fr: "Compagnie" })}
+            {translate({ en: "Navigate", fr: "Naviger" })}
           </p>
+          <FooterLink href="/" title={translate({ en: "Home", fr: "Acceuil" })} />
           <FooterLink
-            href="https://www.accel-tech.net"
-            title={translate({ en: "About", fr: "A-propos" })}
-          />
-          <FooterLink
-            href="https://www.accel-tech.net"
+            href="/services"
             title={translate({ en: "Services", fr: "Services" })}
           />
+          <FooterLink href="/about" title={translate({ en: "About", fr: "À propos" })} />
           <FooterLink
-            href="https://www.accel-tech.net"
-            title={translate({ en: "News", fr: "Nouvelles" })}
-          />
-          <FooterLink
-            href="https://www.accel-tech.net"
-            title={translate({ en: "Contact", fr: "Contact" })}
+            href="/register"
+            title={translate({ en: "Register", fr: "S'inscrire" })}
           />
         </div>
         <div className="max-w-[210px] flex flex-col gap-x-1">
@@ -51,14 +50,43 @@ export default function Footer() {
             <span className="font-semibold">
               {translate({ en: "Phone ", fr: "Telephone " })}{" "}
             </span>
-            +221 33 820 83 83
+            +221 338208383
           </p>
         </div>
         <div className="max-w-[250px] flex flex-col gap-y-2 text-center justify-center">
-          <Image alt="heritage-logo" src="/primary.svg" width={250} height={70} />
+          <a href="https://heritage.africa" target="_blank" rel="noopener noreferrer">
+            <Image alt="heritage-logo" src="/primary.svg" width={250} height={70} />
+          </a>
           <p className="text-white text-sm">
             &copy; 2025 Heritage Africa. All rights reserved.
           </p>
+        </div>
+      </div>
+      <div className="h-[65px] w-full bg-black/10 ">
+        <div className="max-w-[1200px] mx-auto flex items-center text-sm gap-[20px] p-[10px]">
+          <a href="https://www.accel-tech.net" target="_blank" rel="noopener noreferrer">
+            <Image alt="accel-tech" src="/accel-logo.png" width={167} height={50} />
+          </a>
+          <a
+            href="https://www.accel-tech.net"
+            target="_blank"
+            className="text-white/90 hover:text-white/100">
+            {translate({ en: "About", fr: "À propos" })}
+          </a>
+          <a
+            href="https://www.accel-tech.net"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/90 hover:text-white/100">
+            {translate({ en: "Services", fr: "Services" })}
+          </a>
+          <a
+            href="https://www.accel-tech.net"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/90 hover:text-white/100">
+            {translate({ en: "News", fr: "Nouveautés" })}
+          </a>
         </div>
       </div>
     </div>
@@ -69,6 +97,10 @@ const Subscribe: FC = () => {
   const [isLoading, setLoading] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
   const [fields, setFields] = useState({ email: "" });
+
+  const langParam = useParams().lang as string | undefined;
+  const lang = getLang(langParam);
+  const translate = getTranslateFn(lang);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -94,7 +126,7 @@ const Subscribe: FC = () => {
           <p className="text-gray-100">
             {translate({
               en: "Stay up to date on the Heritage Project.",
-              fr: "Restez à jour sur le Projet Héritage."
+              fr: "Restez informé(e) des actualités du Projet Heritage."
             })}
           </p>
           <form className="flex gap-x-1 w-full" onSubmit={handleSubmit}>
@@ -126,14 +158,12 @@ const Subscribe: FC = () => {
   );
 };
 
-function FooterLink(props: { title: string; href?: string }) {
+function FooterLink(props: { title: string; href: string }) {
   return (
-    <a
+    <Link
       href={props.href}
-      target="_blank"
-      rel="noopener noreferrer"
       className="text-lg text-gray-100 hover:text-white cursor-pointer">
       {props.title}
-    </a>
+    </Link>
   );
 }

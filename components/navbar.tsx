@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import services from "@/utils/services";
 import { LANG_COOKIE } from "@/utils/constants";
+import { getTranslateFn } from "@/utils/misc";
+import { useTranslations } from "next-intl";
 
 export default function Navbar() {
   const [isSticky, setIsSticky] = useState(false);
@@ -23,6 +25,8 @@ export default function Navbar() {
 
   const langParam = useParams().lang as string | undefined;
   const lang = getLang(langParam);
+  const translate = getTranslateFn(lang);
+  const t = useTranslations();
 
   function toggleLang() {
     const nextLang = lang === "fr" ? "en" : "fr";
@@ -94,7 +98,7 @@ export default function Navbar() {
                   ? "text-primary"
                   : "text-foreground/80 hover:text-primary"
               }`}>
-              Overview
+              {translate({ en: "Overview", fr: "Aperçu" })}
             </Link>
             <DropdownMenu>
               <DropdownMenuTrigger
@@ -113,7 +117,7 @@ export default function Navbar() {
                     View All Services
                   </Link>
                 </DropdownMenuItem>
-                {services.slice(0, 5).map(({ id, Icon, title, description }) => (
+                {services.slice(0, 5).map(({ id, Icon }) => (
                   <DropdownMenuItem key={id} className="p-3 focus:bg-gray-100">
                     <Link
                       href={`/${lang}/services/${id}`}
@@ -122,9 +126,11 @@ export default function Navbar() {
                         <Icon className="h-8 w-8 text-primary" />
                       </div>
                       <div>
-                        <div className="font-medium text-foreground">{title}</div>
+                        <div className="font-medium text-foreground">
+                          {t(`${id}.title`)}
+                        </div>
                         <div className="text-xs text-foreground/55 mt-1">
-                          {description}
+                          {t(`${id}.description`)}
                         </div>
                       </div>
                     </Link>
@@ -139,7 +145,7 @@ export default function Navbar() {
                   ? "text-primary"
                   : "text-foreground/80 hover:text-primary"
               }`}>
-              About
+              {translate({ en: "About", fr: "À propos" })}
             </Link>
             {/* <Link
               href="/contact"
@@ -169,11 +175,19 @@ export default function Navbar() {
               onClick={toggleLang}>
               <GlobeIcon /> <span>{lang?.toUpperCase()}</span>
             </Button>
+            <Link href="/register">
+              <Button
+                size="sm"
+                variant={"outline"}
+                className="w-full border-primary border-2 hover:bg-black/5 hover:text-primary text-primary">
+                {translate({ en: "Create an Account", fr: "S'inscrire" })}
+              </Button>
+            </Link>
             <a href="https://origins.heritage.africa">
               <Button
                 size="sm"
                 className="bg-primary hover:bg-primary/90 text-white w-full">
-                Access Cloud
+                {translate({ en: "Access Cloud", fr: "Accéder au Cloud" })}
               </Button>
             </a>
           </div>
