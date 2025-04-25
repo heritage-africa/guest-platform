@@ -25,7 +25,7 @@ export default function Footer() {
         </div>
         <div className="max-w-[210px] flex flex-col gap-x-1">
           <p className="text-xl text-white font-semibold mb-2">
-            {translate({ en: "Navigate", fr: "Naviger" })}
+            {translate({ en: "Navigate", fr: "Naviguer" })}
           </p>
           <FooterLink href="/" title={translate({ en: "Home", fr: "Acceuil" })} />
           <FooterLink

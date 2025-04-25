@@ -273,7 +273,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
                   <p className="max-w-[800px] text-2xl font-light text-black">
                     {translate({
                       en: "Infrastructure and operations meeting international security and compliance standards",
-                      fr: "Infrastructures et des opérations conformes aux normes internationales de sécurité et de conformité"
+                      fr: "Infrastructures et opérations conformes aux normes internationales de sécurité et de conformité"
                     })}
                   </p>
                 </div>

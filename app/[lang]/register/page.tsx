@@ -7,8 +7,8 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import services from "@/utils/services";
 import { cl } from "@/utils/misc";
-import { FormEvent, useEffect, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
+import { FormEvent, useEffect, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { CheckCircleIcon } from "lucide-react";
 import { Spinner } from "@/components/spinner";
 
@@ -124,30 +124,59 @@ const blank_fields = {
 
 export default function Register() {
   const t = useTranslations();
+  const language = useLocale();
   const [fields, setFields] = useState(blank_fields);
   const [isLoading, setLoading] = useState(false);
   const [isSuccess, setSuccess] = useState(false);
-  const [error] = useState<null | string>(null);
-
-  const timeoutRef = useRef<NodeJS.Timeout>(null);
+  const [error, setError] = useState<null | string>(null);
+  const [isDevelopment, setIsDevelopment] = useState(false);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (isLoading) return;
     setLoading(true);
-    timeoutRef.current = setTimeout(() => {
-      setLoading(false);
-      setSuccess(true);
-      setFields(blank_fields);
-    }, 2000);
+    setError(null);
+
+    const result = await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...fields, language })
+    });
+    setLoading(false);
+
+    if (result.status !== 201) {
+      setError("Failed to complete registration");
+      return;
+    }
+
+    setSuccess(true);
+  }
+
+  function autoFillForm() {
+    setFields({
+      firstName: "John",
+      lastName: "Doe",
+      email: "jdoe@gmail.com",
+      countryCode: "+221",
+      phoneNumber: "771882121",
+      companyName: "accel tech",
+      country: "Senegal",
+      industry: industries[0],
+      jobRole: jobRoles[0],
+      servicesOfInterest: services.map((svc) => svc.id),
+      purpose: purposes[0],
+      comment: "a comment"
+    });
   }
 
   useEffect(() => {
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
+    if (
+      window.location.host.includes("localhost") ||
+      window.location.host.includes("staging")
+    ) {
+      setIsDevelopment(true);
+    }
   }, []);
-
   return (
     <div className="flex min-h-screen flex-col abstract-bg-alt">
       <Navbar />
@@ -188,13 +217,18 @@ export default function Register() {
                 </div>
               )}
 
-              {error && (
-                <div className="bg-red-500 h-[40px] w-full  shadow-md text-white flex items-center justify-center mb-[20px] text-sm">
-                  {error}
-                </div>
-              )}
-
               <form className="space-y-8" onSubmit={handleSubmit}>
+                {isDevelopment && (
+                  <div>
+                    <button
+                      type="button"
+                      className="underline text-blue-600 hover:text-blue-800"
+                      onClick={autoFillForm}>
+                      Autofill form
+                    </button>{" "}
+                    (only available in development)
+                  </div>
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="col-span-1 space-y-4">
                     {/* Personal Information */}
@@ -511,7 +545,7 @@ export default function Register() {
 
                 {/* Terms and Conditions */}
                 <div className="flex items-start space-x-2 mt-4">
-                  <Checkbox id="terms" required />
+                  <Checkbox id="terms" required={!isDevelopment} />
                   <div className="grid gap-1.5 leading-none">
                     <label
                       htmlFor="terms"

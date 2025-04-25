@@ -114,7 +114,7 @@ export default function Navbar() {
                   <Link
                     href={`/${lang}/services`}
                     className="w-full text-center text-primary hover:underline">
-                    View All Services
+                    {translate({ en: "View All Services", fr: "Voir Tous les Services" })}
                   </Link>
                 </DropdownMenuItem>
                 {services.slice(0, 5).map(({ id, Icon }) => (

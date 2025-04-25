@@ -53,3 +53,26 @@ export const partners = [
   { name: "Fortinet", logo: "/fortinet.png", width: 100, height: 50 },
   { name: "ELK", logo: "/elk.png", width: 100, height: 50 }
 ];
+
+export function stringToBool(string?: string) {
+  if (!string) return false;
+  string = string.trim();
+
+  if (string === "false") return false;
+  if (string === "0") return false;
+  if (string === "no") return false;
+
+  return true;
+}
+
+export async function forwardRegistrationData(
+  endpoint: string,
+  body: Record<string, string | undefined>
+) {
+  const result = await fetch(endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  });
+  console.log(`Forwarding registration completed with status: ${result.status}`);
+}
