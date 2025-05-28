@@ -44,15 +44,17 @@ pipeline {
                 }
             }
         }
-        stage('build image Docker') {
+        stage('build image ') {
             steps {
                 script {
-                    def imageTag= "$DOCKER_USER/$IMAGE_NAME:v${env.BUILD_NUMBER}"
-                    sh "docker build -t ${imageTag} ."
+                    // def imageTag= "$DOCKER_USER/$IMAGE_NAME:v${env.BUILD_NUMBER}"
+                    // sh "docker build -t ${imageTag} ."
+                    oc new-app registry.access.redhat.com/ubi8/nodejs-18~https://github.com/example-org/my-node-app.git --name=my-node-app
+
                 }
             }
         }
-        stage('push image Docker') {
+        stage('push image') {
             steps {
                withCredentials([usernamePassword(credentialsId: 'docker_registry', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     script {
