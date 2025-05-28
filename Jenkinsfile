@@ -4,7 +4,7 @@ pipeline {
     environment {
         APP_NAME= "react-project"
         OPENSHIFT_PROJECT = 'devops'
-        IMAGE_NAME= "react_project"
+        IMAGE_NAME= "guest-platfrom"
         DOCKER_USER= "mina0423"
         OC_SERVER= "https://api.ocp.heritage.africa:6443"
     }
@@ -74,21 +74,21 @@ pipeline {
         //  } 
 
         
-        // stage('run container Docker') {
-        //     steps {
-        //         script {
-        //             sh 'docker stop react_project || true'
-        //             sh 'docker rm react_project || true'
-        //             sh 'docker run -d --name react_project -p 3000:80 mina0423/react_project:v1'
-        //         }
-        //     }
-        // }
+        stage('run container Docker') {
+             steps {
+                 script {
+                     sh 'docker stop react_project || true'
+                     sh 'docker rm react_project || true'
+                     sh 'docker run -d --name react_project -p 3000:80 mina0423/react_project:v1'
+                 }
+             }
+         }
         
          stage('Login to OpenShift') {
              steps {
                  withCredentials([string(credentialsId: 'openshift-token', variable: 'TOKEN')]) {
-                     // sh oc login --token=$TOKEN --server=$OC_SERVER 
-                     sh "oc apply -f secret-serviceaccount-token.yaml"
+                     sh oc login --token=$TOKEN --server=$OC_SERVER 
+                     // sh "oc apply -f secret-serviceaccount-token.yaml"
  
                     // oc project $OPENSHIFT_PROJECT
                      
