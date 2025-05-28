@@ -86,7 +86,7 @@ pipeline {
         //      }
         //  }
         
-         stage('Login to OpenShift') {
+        stage('Login to OpenShift') {
              steps {
                  withCredentials([string(credentialsId: 'openshift-token', variable: 'TOKEN')]) {
                      sh oc login --token=$TOKEN --server=$OC_SERVER 
