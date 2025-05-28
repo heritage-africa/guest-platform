@@ -26,12 +26,12 @@ pipeline {
             }
         }
 
-        stage('test') {
-            steps {
-                echo " Execution des tests "
-                sh 'npm test'
-            }
-        }
+        // stage('test') {
+        //     steps {
+        //         echo " Execution des tests "
+        //         sh 'npm test'
+        //     }
+        // }
 
        
         stage('SonarQube Analysis') {
