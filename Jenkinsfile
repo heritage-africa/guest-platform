@@ -105,8 +105,10 @@ pipeline {
                 // sh "oc apply -f deployment.yaml"
                 sh 'oc delete bc guest-platform'
 
-                sh 'oc new-app --code https://github.com/Amina-9907/devops.git --name=guest-platform'
-                sh 'oc start-build bc/guest-platform'
+                sh 'oc new-app nodejs:18~https://github.com/sclorg/nodejs-ex.git --name=guest-platform'
+                sh 'oc expose service guest-platform'
+                sh 'oc get route'
+
             }
         }
                
