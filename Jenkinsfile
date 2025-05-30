@@ -103,9 +103,9 @@ pipeline {
                 sh 'oc project $OPENSHIFT_PROJECT'
                 // sh "sed -i 's|image: .*|image: ${DOCKER_USER}/${IMAGE_NAME}:v${env.BUILD_NUMBER}|' deployment.yaml"
                 // sh "oc apply -f deployment.yaml"
-                sh 'oc delete bc guest-platform'
+                //sh 'oc delete bc guest-platform'
 
-                sh 'oc new-app nodejs:18~https://github.com/sclorg/nodejs-ex.git --name=guest-platform'
+                sh 'oc new-app openshift/nodejs:18-ubi9~https://github.com/sclorg/nodejs-ex.git --name=guest-platform'
                 sh 'oc expose service guest-platform'
                 sh 'oc get route'
 
