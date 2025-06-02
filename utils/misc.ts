@@ -76,3 +76,17 @@ export async function forwardRegistrationData(
   });
   console.log(`Forwarding registration completed with status: ${result.status}`);
 }
+
+// Subscribe
+
+// export async function forwardSubscriptionData(
+//   endpoint: string,
+//   body: Record<string, string | undefined>
+// ) {
+//   const result = await fetch(endpoint, {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify(body)
+//   });
+//   console.log(`Forwarding subscription completed with status: ${result.status}`);
+// }

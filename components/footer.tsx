@@ -106,7 +106,7 @@ const Subscribe: FC = () => {
     e.preventDefault();
     if (isLoading) return;
     setLoading(true);
-    fetch("/api/emails", {
+    fetch("/api/subscribe", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(fields)
