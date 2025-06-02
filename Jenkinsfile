@@ -20,7 +20,6 @@ pipeline {
         
         stage('Build') {
             steps {
-                echo "${params.ENV} est là !!!!!"
                 echo " Build de l'application"
                 sh 'npm run build'
             }
