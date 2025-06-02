@@ -70,11 +70,11 @@ pipeline {
 
         //     }
         // }
-        stage('update app')
+        stage('update app'){
             steps{
                 sh 'oc start-build guest-platform'
             }
-               
+        }
     }
 
 }
