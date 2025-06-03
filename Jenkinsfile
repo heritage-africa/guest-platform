@@ -2,10 +2,7 @@ pipeline {
     agent any
    
     environment {
-        APP_NAME= "react-project"
         OPENSHIFT_PROJECT = 'devops'
-        IMAGE_NAME= "guest-platfrom"
-        DOCKER_USER= "mina0423"
         OC_SERVER= "https://api.ocp.heritage.africa:6443"
     }
 
