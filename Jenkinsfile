@@ -3,7 +3,7 @@ pipeline {
    
     environment {
         OPENSHIFT_PROJECT = 'devops'
-        OC_SERVER= "https://api.ocp.heritage.africa:6443"
+        OC_test= "https://api.ocp.heritage.africa:6443"
     }
 
     stages {
@@ -41,11 +41,26 @@ pipeline {
             }
         }
         
-
-       
-
        
         stage('Login to OpenShift') {
+             steps {
+                 withCredentials([string(credentialsId: 'openshift-token', variable: 'TOKEN')]) {
+                     sh "oc login --token=$TOKEN --server=$OC_SERVER "
+                     // sh "oc apply -f secret-serviceaccount-token.yaml"
+ 
+                    // oc project $OPENSHIFT_PROJECT
+                     
+                 }
+             }
+             steps {
+                 withCredentials([string(credentialsId: 'openshift-token', variable: 'TOKEN')]) {
+                     sh "oc login --token=$TOKEN --server=$OC_SERVER "
+                     // sh "oc apply -f secret-serviceaccount-token.yaml"
+ 
+                    // oc project $OPENSHIFT_PROJECT
+                     
+                 }
+             }
              steps {
                  withCredentials([string(credentialsId: 'openshift-token', variable: 'TOKEN')]) {
                      sh "oc login --token=$TOKEN --server=$OC_SERVER "
