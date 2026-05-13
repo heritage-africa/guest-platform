@@ -1,14 +1,3 @@
-import {
-  Database,
-  Server,
-  Shield,
-  Cpu,
-  HardDrive,
-  Code,
-  Layers,
-  ActivityIcon,
-  Grid
-} from "lucide-react";
 import { DEFAULT_LANG } from "./constants";
 
 export const cl = (

@@ -174,7 +174,7 @@ export default function Register() {
       window.location.host.includes("localhost") ||
       window.location.host.includes("staging")
     ) {
-      setIsDevelopment(true);
+      queueMicrotask(() => setIsDevelopment(true));
     }
   }, []);
   return (
