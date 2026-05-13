@@ -15,7 +15,7 @@ import {
   Brain
 } from "lucide-react";
 
-export default [
+const services = [
   { id: "openshift-workspaces", Icon: Server, category: "compute" },
   { id: "software-as-a-service", Icon: Code, category: "applications" },
   { id: "s3-object-storage", Icon: HardDrive, category: "storage" },
@@ -32,3 +32,5 @@ export default [
   { id: "automation-platform-as-a-service", Icon: Workflow, category: "applications" },
   { id: "ai-ml-platforms", Icon: Brain, category: "data" }
 ];
+
+export default services;
